@@ -1,32 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import ResizeObserver from 'resize-observer-polyfill'
 import { debounce } from 'lodash'
 
+import './Mason.css'
 
 export default class Mason extends Component {
 	componentDidMount () {
-		let columns = +this.props.columns
-		let children = [].slice.call(this.refs.container.children)
-		children.forEach(child => {
-			child.style.width = `${100 / columns}%`
-			child.style.display = 'inline-block'
-		})
-		
-		this.positionChildren()
-		
-		this.throttledHandler = debounce(this.positionChildren, 100, {leading: false, trailing: true})
-		
-		window.addEventListener('resize', this.throttledHandler)
-		window.addEventListener('orientationchange', this.throttledHandler)
-	}
-	
-	componentWillUnmount () {
-		window.removeEventListener('resize', this.throttledHandler)
-		window.removeEventListener('orientationchange', this.throttledHandler)
+		new ResizeObserver(() => {this.positionChildren()}).observe(this.refs.container)
+        this.positionChildren()
 	}
 	
 	positionChildren = () => {
 		let container = this.refs.container
-		let columns = +this.props.columns
+        let breakPoint = window.getComputedStyle(container, ':before').getPropertyValue('content').replace(/\"/g, '')
+		let columns = +this.props.columns[breakPoint] || +this.props.columns.default || 1
 		let columnDebt = new Array(columns).fill(0)
 		let children = [].slice.call(this.refs.container.children)
 
@@ -36,24 +23,26 @@ export default class Mason extends Component {
 			let maxHeight = Math.max( ...rowChildren.map(child => child.offsetHeight))
 			let debt = maxHeight - child.offsetHeight
 			
-			if (index > columns - 1) {
-				child.style.transform = `translateY(${-columnDebt[column]}px)`
-				child.style.content = ''
-			}
+			child.style.transform = index > columns - 1 ? `translateY(${-columnDebt[column]}px)` : ''
 			columnDebt[column] = columnDebt[column] + debt
 		})
-		
-		// let lastChildren = children.slice(index - column, index - column + columns)
-		// let maxHeight = Math.max( ...rowChildren.map(child => child.offsetHeight))
-		// container.style.marginBottom = ( -Math.max(...columnDebt)) + 'px'
-	}
-	
-	sizeHandler = () => {
-		this.positionChildren()
+
+		window.setTimeout(() => {
+            let lastChildren = children.slice(Math.max(children.length - columns, 1))
+            let childBottomEdge = lastChildren.map(child => {
+            	let childRect = child.getBoundingClientRect()
+            	return ((childRect.top + childRect.height))
+            })
+            let containerHeight =  (Math.max(...childBottomEdge)  - container.getBoundingClientRect().top) + 'px'
+
+            container.style.height = containerHeight
+		}, 0)
 	}
 	
 	render () {
-		return <div ref='container'>
+		let masonClasses = Object.keys(this.props.columns).map(breakPoint => `mason-columns-${breakPoint}-${this.props.columns[breakPoint]}`)
+
+		return <div className={['mason-container', ...masonClasses].join(' ')} ref='container'>
 			{this.props.children}
 		</div>
 	}

@@ -1,0 +1,78 @@
+.mason-container {position: relative;}
+.mason-container > * {display: inline-block;}
+
+/*
+    override with your break points.
+*/
+
+.mason-container:before {content: 'large'; display: none;}
+
+.mason-container.mason-columns-default-1 > * { width: 100%; }
+.mason-container.mason-columns-default-2 > * { width: 50%; }
+.mason-container.mason-columns-default-3 > * { width: 33.333%; }
+.mason-container.mason-columns-default-4 > * { width: 25%; }
+.mason-container.mason-columns-default-5 > * { width: 20%; }
+.mason-container.mason-columns-default-6 > * { width: 16.666%; }
+.mason-container.mason-columns-default-7 > * { width: 14.285%; }
+.mason-container.mason-columns-default-8 > * { width: 12.5%; }
+.mason-container.mason-columns-default-9 > * { width: 11.111%; }
+.mason-container.mason-columns-default-10 > * { width: 10%; }
+
+.mason-container.mason-columns-large-1 > * { width: 100%; }
+.mason-container.mason-columns-large-2 > * { width: 50%; }
+.mason-container.mason-columns-large-3 > * { width: 33.333%; }
+.mason-container.mason-columns-large-4 > * { width: 25%; }
+.mason-container.mason-columns-large-5 > * { width: 20%; }
+.mason-container.mason-columns-large-6 > * { width: 16.666%; }
+.mason-container.mason-columns-large-7 > * { width: 14.285%; }
+.mason-container.mason-columns-large-8 > * { width: 12.5%; }
+.mason-container.mason-columns-large-9 > * { width: 11.111%; }
+.mason-container.mason-columns-large-10 > * { width: 10%; }
+
+
+@media (max-width: 63.9rem) {
+    .mason-container:before {content: 'medium'}
+    .mason-container.mason-columns-medium-1 > * { width: 100%; }
+    .mason-container.mason-columns-medium-2 > * { width: 50%; }
+    .mason-container.mason-columns-medium-3 > * { width: 33.333%; }
+    .mason-container.mason-columns-medium-4 > * { width: 25%; }
+    .mason-container.mason-columns-medium-5 > * { width: 20%; }
+    .mason-container.mason-columns-medium-6 > * { width: 16.666%; }
+    .mason-container.mason-columns-medium-7 > * { width: 14.285%; }
+    .mason-container.mason-columns-medium-8 > * { width: 12.5%; }
+    .mason-container.mason-columns-medium-9 > * { width: 11.111%; }
+    .mason-container.mason-columns-medium-10 > * { width: 10%; }
+}
+
+@media (max-width: 39.9rem) {
+    .mason-container:before {content: 'small'}
+    .mason-container.mason-columns-small-1 > * { width: 100%; }
+    .mason-container.mason-columns-small-2 > * { width: 50%; }
+    .mason-container.mason-columns-small-3 > * { width: 33.333%; }
+    .mason-container.mason-columns-small-4 > * { width: 25%; }
+    .mason-container.mason-columns-small-5 > * { width: 20%; }
+    .mason-container.mason-columns-small-6 > * { width: 16.666%; }
+    .mason-container.mason-columns-small-7 > * { width: 14.285%; }
+    .mason-container.mason-columns-small-8 > * { width: 12.5%; }
+    .mason-container.mason-columns-small-9 > * { width: 11.111%; }
+    .mason-container.mason-columns-small-10 > * { width: 10%; }
+}
+
+
+
+/*
+.mason-container.mason-columns-large-undefined:before {
+    content: 'you must provide a large column count, or a default';
+    color: red;
+}
+
+.mason-container.mason-columns-medium-undefined:before {
+    content: 'you must provide a medium column count, or a default';
+    color: red;
+}
+
+.mason-container.mason-columns-small-undefined:before {
+    content: 'you must provide a small column count, or a default';
+    color: red;
+}
+*/

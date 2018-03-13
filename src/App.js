@@ -16,21 +16,17 @@ class App extends Component {
 	
 
 	render() {
-		const items = this.state.items
-		
+		const responsiveItems = [<h1>responsive</h1>, ...this.state.items]
+		const static3Items = [<h1>static 3 columns</h1>, ...this.state.items]
+
 		return (
 			<div className='App'>
-				<Mason columns='2'>
-					{items.map((item, index) => <div key={index} className='my-item' ><div>{item}</div></div>)}
-				</Mason>
-				<Mason columns='3'>
-					{items.map((item, index) => <div key={index} className='my-item' ><div>{item}</div></div>)}
-				</Mason>
-				<Mason columns='4'>
-					{items.map((item, index) => <div key={index} className='my-item' ><div>{item}</div></div>)}
-				</Mason>
-				<Mason columns='5'>
-					{items.map((item, index) => <div key={index} className='my-item' ><div>{item}</div></div>)}
+                <Mason columns={{large: 4, medium: 2, small: 1}}>
+                    {responsiveItems.map((item, index) => <div key={index} className='my-item' ><div>{item}</div></div>)}
+                </Mason>
+				<hr />
+				<Mason columns={{default: '3'}}>
+					{static3Items.map((item, index) => <div key={index} className='my-item' ><div>{item}</div></div>)}
 				</Mason>
 			</div>
 		)

@@ -1,9 +1,28 @@
 * {
     box-sizing: border-box;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 body {
     background: #eee;
+}
+
+.App {
+    margin: auto;
+    max-width: 90rem;
+}
+
+h1 {
+    margin: 0;
+    text-transform: uppercase;
+    color: gray;
+}
+
+hr {
+    margin: 1rem .5rem;
+    border-style: solid;
+    border-color: #bbb;
+    border-width: 1px 0 0;
 }
 
 .my-item {
@@ -15,6 +34,6 @@ body {
     background: #fff;
     border: 1px solid #ccc;
     padding: 1rem;
-    box-shadow: 0 1rem 0.5rem -0.5rem #ccc;
-    border-radius: 0 0 .5rem;
+    box-shadow: 0 .75rem 0.5rem -0.5rem #ccc;
 }
+
