@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #eee;
+}
+
+.my-item {
+    padding: .5rem;
+    vertical-align: top;
+}
+
+.my-item div {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    box-shadow: 0 1rem 0.5rem -0.5rem #ccc;
+    border-radius: 0 0 .5rem;
+}
