@@ -2,7 +2,7 @@
 .mason-container > * {display: inline-block;}
 
 /*
-    override with your break points.
+    override the breakpoint values for your app.
 */
 
 .mason-container:before {content: 'large'; display: none;}

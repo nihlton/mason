@@ -1,39 +1,39 @@
 * {
-    box-sizing: border-box;
-    font-family: 'Source Sans Pro', sans-serif;
+  box-sizing: border-box;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 body {
-    background: #eee;
+  background: #eee;
 }
 
 .App {
-    margin: auto;
-    max-width: 90rem;
+  margin: auto;
+  max-width: 90rem;
 }
 
 h1 {
-    margin: 0;
-    text-transform: uppercase;
-    color: gray;
+  margin: 0;
+  text-transform: uppercase;
+  color: gray;
 }
 
 hr {
-    margin: 1rem .5rem;
-    border-style: solid;
-    border-color: #bbb;
-    border-width: 1px 0 0;
+  margin: 1rem .5rem;
+  border-style: solid;
+  border-color: #bbb;
+  border-width: 1px 0 0;
 }
 
 .my-item {
-    padding: .5rem;
-    vertical-align: top;
+  padding: .5rem;
+  vertical-align: top;
 }
 
 .my-item div {
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 1rem;
-    box-shadow: 0 .75rem 0.5rem -0.5rem #ccc;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  box-shadow: 0 .75rem 0.5rem -0.5rem #ccc;
 }
 
