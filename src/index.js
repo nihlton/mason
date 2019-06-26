@@ -66,14 +66,14 @@ export default class Index extends Component {
   }
   
   positionChildren = () => {
-		const defaultColumns = +this.props.columns || 1
-		const defaultBreakPoint = { breakpoint: Infinity, columns: defaultColumns }
-		const breakPoints = (this.props.responsive || [ defaultBreakPoint ]).sort((a, b) => b.breakpoint - a.breakpoint)
-		const container = this.refs.container
-		const containerRect = container && container.getBoundingClientRect()
-		const containerWidth = containerRect && containerRect.width
-		const breakPoint = breakPoints.reduce((a, c) => containerWidth < c.breakpoint && c.breakpoint < a.breakpoint ? c : a, defaultBreakPoint)
-		const columns = +breakPoint.columns
+    const defaultColumns = +this.props.columns || 1
+    const defaultBreakPoint = { breakpoint: Infinity, columns: defaultColumns }
+    const breakPoints = (this.props.responsive || [ defaultBreakPoint ]).sort((a, b) => b.breakpoint - a.breakpoint)
+    const container = this.refs.container
+    const containerRect = container && container.getBoundingClientRect()
+    const containerWidth = containerRect && containerRect.width
+    const breakPoint = breakPoints.reduce((a, c) => containerWidth < c.breakpoint && c.breakpoint < a.breakpoint ? c : a, defaultBreakPoint)
+    const columns = +breakPoint.columns
     const columnDebt = new Array(columns).fill(0)
     const children = [].slice.call(this.refs.container.children)
     
