@@ -27,16 +27,16 @@ export default class Index extends Component {
       this.setState = ({ visibleRows: this.props.visibleRows })
     }
   }
-	
-	componentDidMount () {
+  
+  componentDidMount () {
     this.resizeObserver = new ResizeObserver(() => { this.positionChildren() })
     this.resizeObserver.observe(this.refs.container)
-		
-		window.setTimeout(() => window.requestAnimationFrame(() => {
+    
+    window.setTimeout(() => window.requestAnimationFrame(() => {
       this.positionChildren()
       this.listenForImages()
     }, 0))
-	}
+  }
   
   componentDidUpdate () {
     this.positionChildren()
@@ -78,7 +78,7 @@ export default class Index extends Component {
     const children = [].slice.call(this.refs.container.children)
     
     container.setAttribute('class', `mason-container mason-columns-${columns}`)
-		
+    
     if (columns === 1) {
       children.forEach(child => (child.style.transform = 'none'))
       container.style.height = 'auto'
@@ -107,9 +107,9 @@ export default class Index extends Component {
       const truncateHeight = (Math.min(...childBottomEdge) - container.getBoundingClientRect().top) + 'px'
       container.style.height = items.length > numToShow ? truncateHeight : fullHeight
     })
-	}
-	
-	render () {
+  }
+  
+  render () {
     const itemsPerRow = this.props.columns || 1
     const numToShow = this.state.visibleRows * itemsPerRow
     const items = this.props.children
@@ -126,5 +126,5 @@ export default class Index extends Component {
         {allItemsVisible && showMoreButton}
       </div>
     </div>
-	}
+  }
 }
