@@ -1,6 +1,6 @@
 .mason-container {
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     --cell-width: 100%;
     box-sizing: border-box;
     margin: 0;
