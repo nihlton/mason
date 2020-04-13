@@ -1,0 +1,28 @@
+body {
+  background: #eee;
+}
+
+.App {
+  max-width: 60rem;
+  margin: auto;
+  padding: 5rem 0;
+}
+
+.App img {
+  max-width: 100%;
+}
+
+.App .random-entry {
+  padding: .75rem;
+}
+
+.App .random-entry .entry-content {
+  background: white;
+  box-shadow: 0 0 0 1px #0003, 0 0.5rem 0.5rem -0.5rem #0006;
+  padding: .5rem;
+}
+
+.App .random-entry .entry-content p {
+  margin: .5rem 0;
+  font-size: .85rem;
+}

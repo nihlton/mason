@@ -1,37 +1,34 @@
 {
-  "name": "@gregarcher/masonry",
-  "version": "0.0.2",
-  "author": {
-    "name": "Greg Archer",
-    "email": "greg.taff@gmail.com"
-  },
-  "main": "build/index.js",
-  "peerDependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
-  },
+  "name": "test-mason-component",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "resize-observer-polyfill": "^1.5.1",
-    "webpack": "^4.35.0"
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch",
-    "build": "webpack"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
-    "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/preset-es2015": "^7.0.0-beta.53",
-    "@babel/preset-react": "^7.0.0",
-    "babel-cli": "^6.26.0",
-    "babel-loader": "^8.0.6",
-    "css-loader": "^3.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "style-loader": "^0.23.1",
-    "webpack-cli": "^3.0.4"
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
