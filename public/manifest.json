@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Demo: react-stone-mason",
+  "name": "A demonstration of a responsive mansonry layout engine for react js",
   "icons": [
     {
       "src": "favicon.ico",

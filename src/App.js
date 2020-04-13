@@ -20,7 +20,13 @@ function App() {
     }
   }
   
-  const randomEntries = new Array(60).fill('.').map(() => {
+  const staticColumn = {
+    "default": {
+      "columns": 3
+    }
+  }
+  
+  const randomEntries = new Array(40).fill('.').map(() => {
     const textStart = parseInt(Math.random() * 400)
     const height = parseInt(Math.random() * 400) + 100
     const text = hipsum.slice(textStart, textStart + (height / 5))
@@ -32,9 +38,16 @@ function App() {
     </div>
   })
   
+  const hStyle = { padding: '.5rem' }
+  
   return (
     <div className="App">
+      <h1 style={hStyle} >Responsive</h1>
       <Mason columns={columnConfig}>{randomEntries}</Mason>
+  
+      <h1 style={hStyle} >Static</h1>
+      <Mason columns={staticColumn}>{randomEntries}</Mason>
+
     </div>
   );
 }
