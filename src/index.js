@@ -49,8 +49,6 @@ export default function Mason (props) {
       Object.keys(mediaListeners).forEach(breakPoint => {
         const cellWidth = (100 / columns[breakPoint].columns).toFixed(3) + '%'
         if (mediaListeners[breakPoint].matches) { containerStyle.setProperty('--cell-width', cellWidth) }
-        
-        console.log(breakPoint, mediaListeners[breakPoint].matches, cellWidth)
       })
     }
     
@@ -62,6 +60,7 @@ export default function Mason (props) {
     })
     
     return () => {
+      // stop listening for query matches, and set number of columns
       Object.keys(mediaListeners).forEach(breakPoint => {
         mediaListeners[breakPoint].removeListener(getQueryMatches)
       })
