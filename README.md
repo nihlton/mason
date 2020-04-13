@@ -24,11 +24,13 @@ const columnConfig = {
 <Mason columns={columnConfig}>{ children }</Mason>
 
 ```
-**break point** - any name, for readability.
+* **break point** - any name, for readability.
 
-**CSS media query** - a media query string.  see: [Window.matchMedia()](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia)
+* **CSS media query** - (optional) a media query string.  see: [Window.matchMedia()](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia)
 
-**columns** - number of columns to divide child elements into.
+  - if a query isn't provided, the column value will be treated as the default/fallback value.
+
+* **columns** - number of columns to divide child elements into.
 
 **Notes:**
 
@@ -46,16 +48,9 @@ import Mason from 'react-stone-mason'
 
 function App() {
 
-  const columnConfig = {
-    default: {
-      query: '(min-width: 0px)',
-      columns: 3
-    },
-  }
-  
   return (
     <div className="App">
-      <Mason columns={columnConfig}>{ children }</Mason>
+      <Mason columns={ default: { columns: 3 } }>{ [children] }</Mason>
     </div>
   );
 }
@@ -89,7 +84,7 @@ function App() {
   
   return (
     <div className="App">
-      <Mason columns={columnConfig}>{ children }</Mason>
+      <Mason columns={columnConfig}>{ [children] }</Mason>
     </div>
   );
 }

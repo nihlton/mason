@@ -5,11 +5,16 @@ import './index.css'
 
 const nodesToArray = (nodeList) => Array.prototype.slice.call(nodeList)
 const positionChildren = (container, columnConfig) => {
+  // iterate through children - by column.  find gap under each child and the element in the row below it.
+  // add the gap to the 'column debt' and move the child vertically accordingly.
+  
   if (!container) { return }
   let breakPoint
   
   Object.keys(columnConfig).forEach(thisBreakPoint => {
-    if (window.matchMedia(columnConfig[thisBreakPoint].query).matches) { breakPoint = thisBreakPoint }
+    const defaultValue = !columnConfig[thisBreakPoint].query
+    const matchesThisBreakPoint = window.matchMedia(columnConfig[thisBreakPoint].query).matches
+    if (matchesThisBreakPoint || defaultValue) { breakPoint = thisBreakPoint }
   })
   
   if (!breakPoint) { return }
@@ -42,28 +47,30 @@ export default function Mason (props) {
   const columns = props.columns
   
   useEffect(() => {
-    // listen for query matches, and set number of columns
-    const mediaListeners = {}
+    const mqListeners = {}
     const containerStyle = containerRef.current.style
+    
+    // handle media query match changes
     const getQueryMatches = () => {
-      Object.keys(mediaListeners).forEach(breakPoint => {
+      Object.keys(mqListeners).forEach(breakPoint => {
         const cellWidth = (100 / columns[breakPoint].columns).toFixed(3) + '%'
-        if (mediaListeners[breakPoint].matches) { containerStyle.setProperty('--cell-width', cellWidth) }
+        if (mqListeners[breakPoint].matches || !columns[breakPoint].query) {
+          containerStyle.setProperty('--cell-width', cellWidth)
+          window.requestAnimationFrame(() => positionChildren(containerRef.current, columns))
+        }
       })
     }
-    
+  
+    // listen for query matches, attach listener
     Object.keys(columns).forEach(breakPoint => {
-      const cellWidth = (100 / columns[breakPoint].columns).toFixed(3) + '%'
-      mediaListeners[breakPoint] = window.matchMedia(columns[breakPoint].query)
-      mediaListeners[breakPoint].addListener(getQueryMatches)
-      if (mediaListeners[breakPoint].matches) { containerStyle.setProperty('--cell-width', cellWidth) }
+      mqListeners[breakPoint] = window.matchMedia(columns[breakPoint].query)
+      mqListeners[breakPoint].addListener(getQueryMatches)
+      getQueryMatches()
     })
     
     return () => {
       // stop listening for query matches, and set number of columns
-      Object.keys(mediaListeners).forEach(breakPoint => {
-        mediaListeners[breakPoint].removeListener(getQueryMatches)
-      })
+      Object.keys(mqListeners).forEach(breakPoint => mqListeners[breakPoint].removeListener(getQueryMatches))
     }
   }, [ columns, containerRef ])
   
