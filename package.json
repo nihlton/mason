@@ -1,17 +1,16 @@
 {
   "name": "@gregarcher/masonry",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": {
     "name": "Greg Archer",
     "email": "greg.taff@gmail.com"
   },
   "main": "build/index.js",
   "peerDependencies": {
-    "react": ">15"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
     "resize-observer-polyfill": "^1.5.1",
     "webpack": "^4.35.0"
   },
