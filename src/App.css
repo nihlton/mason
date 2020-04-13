@@ -18,7 +18,8 @@ body {
 
 .App .random-entry .entry-content {
   background: white;
-  box-shadow: 0 0 0 1px #0003, 0 0.5rem 0.5rem -0.5rem #0006;
+  box-shadow: 0 0 0 1px #0003, 0 0.75rem 0.75rem -0.5rem #0004;
+  border-radius: 3px;
   padding: .5rem;
 }
 

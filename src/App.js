@@ -4,7 +4,7 @@ import Mason from '@gregarcher/masonry'
 import './App.css';
 
 function App() {
-  const hipsum = 'Shabby chic cloud bread in 8-bit non ramps snackwave vice poke lomo blog readymade brooklyn man bun. '
+  const hipsum = `Taxidermy proident hoodie brooklyn PBR&B godard succulents actually. Vice exercitation banh mi kombucha sed squid. Aliqua mumblecore raw denim pitchfork, intelligentsia in blog tote bag glossier normcore vice sartorial narwhal dolore echo park. Irony heirloom do, subway tile XOXO gluten-free magna. Normcore pok pok seitan hella roof party iceland humblebrag disrupt lumbersexual flexitarian mumblecore fingerstache helvetica. Yr laboris iceland, wayfarers proident hell of kitsch tilde palo santo dreamcatcher cupidatat gastropub ea. Tbh sriracha crucifix jianbing semiotics typewriter in et migas tacos.`
   const columnConfig = {
     "small": {
       "query": "(max-width: 720px)",
@@ -21,11 +21,13 @@ function App() {
   }
   
   const randomEntries = new Array(60).fill('.').map(() => {
-    const height = parseInt(Math.random() * 600) + 50
+    const textStart = parseInt(Math.random() * 400)
+    const height = parseInt(Math.random() * 400) + 100
+    const text = hipsum.slice(textStart, textStart + (height / 5))
     return <div className='random-entry'>
       <div className='entry-content'>
-        <img src={`http://placeimg.com/300/${height}/any`} alt='place kitten'/>
-        <p>{hipsum.slice(0, height / 10)}</p>
+        <img src={`https://picsum.photos/300/${height}`} alt='place kitten'/>
+        <p>{text}</p>
       </div>
     </div>
   })
