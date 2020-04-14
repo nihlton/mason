@@ -3,7 +3,6 @@ import ResizeObserver from 'resize-observer-polyfill'
 
 import './index.css'
 
-const nodesToArray = (nodeList) => Array.prototype.slice.call(nodeList)
 const positionChildren = (container, columnConfig) => {
   // iterate through children - by column.  find gap under each child and the element in the row below it.
   // add the gap to the 'column debt' and move the child vertically accordingly.
@@ -47,6 +46,7 @@ export default function Mason (props) {
   const columns = props.columns
   
   useEffect(() => {
+    // Listen for mediaQuery matches, and set the number of columns.
     const mqListeners = {}
     const containerStyle = containerRef.current.style
     
@@ -75,27 +75,25 @@ export default function Mason (props) {
   }, [ columns, containerRef ])
   
   useEffect(() => {
-    // listen for document resizing.  recalculate transforms as needed.
-    const containerNode = containerRef.current
+    // listen for document resizing, and dom tree changes.  recalculate transforms as needed.
     const doPositionChildren = () => positionChildren(containerNode, columns)
-    new ResizeObserver(() => { doPositionChildren() }).observe(containerNode)
+    const mutationConfig = { childList: true, subtree: true }
+    const containerNode = containerRef.current
+    const sizeObserver = new ResizeObserver(() => { doPositionChildren() })
+    const domObserver = new MutationObserver(() => { doPositionChildren() })
+    containerNode.addEventListener('load', doPositionChildren, true)
+    containerNode.addEventListener('error', doPositionChildren, true)
+  
+    sizeObserver.observe(containerNode)
+    domObserver.observe(containerNode, mutationConfig)
     
     doPositionChildren()
     
-    // listen for changes to images
-    const images = nodesToArray(containerNode.getElementsByTagName('img'))
-    images.forEach(img => {
-      !img.complete && img.addEventListener('load', doPositionChildren)
-      !img.complete && img.addEventListener('error', doPositionChildren)
-    })
-    
     return () => {
-      // stop listening for changes to images
-      const images = nodesToArray(containerNode.getElementsByTagName('img'))
-      images.forEach(img => {
-        img.removeEventListener('load', doPositionChildren)
-        img.removeEventListener('error', doPositionChildren)
-      })
+      sizeObserver.disconnect()
+      domObserver.disconnect()
+      containerNode.removeEventListener('load', doPositionChildren)
+      containerNode.removeEventListener('error', doPositionChildren)
     }
   }, [containerRef, columns])
   
