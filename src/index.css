@@ -7,11 +7,6 @@
     padding: 0;
 }
 
-.mason-container > *:before,
-.mason-container > *::after {
-    box-sizing: inherit;
-}
-
 .mason-container > * {
     box-sizing: inherit;
     display: inline-block;
