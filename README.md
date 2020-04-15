@@ -1,6 +1,14 @@
 # React Stone Mason
 Responsive masonry layout engine for react.
 
+**What makes this different**
+
+Obviously, this isn't the first masonry layout component for react.
+
+  * Uses standard media queries to set column counts.  *Media queries are parsed and intepreted by the browser, not the component*.
+  * Unopinionated about whats inside, with no modifications to your elements.  No event handlers bound, no styles applied. 
+  * Simple layout logic.  Items are rendered by the browser in a standard inline-block flow, then the component repositions the elements vertically to consume white space between column neighbors.
+
 live demo: https://nihlton.github.io/mason/
 
 ## Installation

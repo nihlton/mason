@@ -1,13 +1,13 @@
 {
   "name": "react-stone-mason",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": {
     "name": "Greg Archer",
     "email": "greg.taff@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nihlton/mason"
+    "url": "git+https://github.com/nihlton/mason"
   },
   "homepage": "https://github.com/nihlton/mason",
   "main": "build/index.js",

@@ -99,6 +99,6 @@ export default function Mason (props) {
   
   
   return <div className={'mason-container'} ref={containerRef}>
-    {props.children}
+    {props.children.map((child, i) => <div key={`child-${i}`}>{child}</div>)}
   </div>
 }
