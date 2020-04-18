@@ -34,7 +34,8 @@ const positionChildren = (container, columnConfig) => {
   window.requestAnimationFrame(() => {
     let lastChildren = children.slice(-1 * (columns))
     let childBottomEdge = lastChildren.map(child => child.getBoundingClientRect().bottom)
-    container.style.height = (Math.max(...childBottomEdge)  - children[0].getBoundingClientRect().top) + 'px'
+    let childTopEdge = (children[0] && children[0].getBoundingClientRect().top) || 0
+    container.style.height = (Math.max(...childBottomEdge)  - childTopEdge) + 'px'
   })
 }
 
