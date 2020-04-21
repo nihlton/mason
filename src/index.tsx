@@ -51,9 +51,9 @@ const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): 
   })
   
   window.requestAnimationFrame(() => {
-    let lastChildren: HTMLElement[] = children.slice(-1 * (columns))
-    let childBottomEdge: number = Math.max(...lastChildren.map((c: HTMLElement) => c.getBoundingClientRect().bottom))
-    let childTopEdge: number = (children[0] && children[0].getBoundingClientRect().top) || 0
+    const lastChildren = children.slice(-1 * (columns))
+    const childBottomEdge = Math.max(...lastChildren.map((c: HTMLElement) => c.getBoundingClientRect().bottom))
+    const childTopEdge = (children[0]?.getBoundingClientRect().top) ?? 0
     container.style.height = (childBottomEdge  - childTopEdge) + 'px'
   })
 }
