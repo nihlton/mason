@@ -32,11 +32,17 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.0.0",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "awesome-typescript-loader": "^5.2.1",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.0.0",
     "html-webpack-plugin": "^3.2.0",
+    "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",
+    "ts-loader": "^7.0.0",
+    "typescript": "^3.8.3",
     "webpack-cli": "^3.0.4"
   }
 }

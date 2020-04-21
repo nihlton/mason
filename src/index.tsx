@@ -1,15 +1,34 @@
-import React, { useEffect, useRef } from 'react'
+import * as React from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 
 import './index.css'
 
-const positionChildren = (container, columnConfig) => {
+interface MutationConfiguration {
+  childList: boolean,
+  subtree: boolean
+}
+
+interface BreakPointData {
+  query?: string,
+  columns: number
+}
+
+interface MasonryConfig {
+  [key: string]: BreakPointData
+}
+
+export interface MasonProps {
+  children?: React.ReactNode[] | undefined,
+  columns: MasonryConfig
+}
+
+const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): void => {
   // iterate through children - by column.  find gap under each child and the element in the row below it.
   // add the gap to the 'column debt' and move the child vertically accordingly.
   
   if (!container) { return }
-  let breakPoint
-  
+  let breakPoint: string
+
   Object.keys(columnConfig).forEach(thisBreakPoint => {
     const defaultValue = !columnConfig[thisBreakPoint].query
     const matchesThisBreakPoint = window.matchMedia(columnConfig[thisBreakPoint].query).matches
@@ -17,41 +36,41 @@ const positionChildren = (container, columnConfig) => {
   })
   
   if (!breakPoint) { return }
-  let columns = +columnConfig[breakPoint].columns || 1
-  let columnDebt = new Array(columns).fill(0)
-  let children = [].slice.call(container.children)
+  let columns: number = +columnConfig[breakPoint].columns || 1
+  let columnDebt: number[] = new Array(columns).fill(0)
+  let children: HTMLElement[] = [].slice.call(container.children)
   
-  children.forEach((child, index) => {
-    let column = index % columns
-    let rowChildren = children.slice(index - column, index - column + columns)
-    let maxHeight = Math.max( ...rowChildren.map(child => child.offsetHeight))
-    let debt = Math.ceil(maxHeight - child.getBoundingClientRect().height)
-    
+  children.forEach((child: HTMLElement, index: number) => {
+    let column: number = index % columns
+    let rowChildren: HTMLElement[] = children.slice(index - column, index - column + columns)
+    let maxHeight: number = Math.max( ...rowChildren.map((rowChild: HTMLElement) => rowChild.offsetHeight))
+    let debt: number = Math.ceil(maxHeight - child.getBoundingClientRect().height)
+
     child.style.transform = index > columns - 1 ? `translateY(${-columnDebt[column]}px)` : ''
     columnDebt[column] = columnDebt[column] + debt
   })
   
   window.requestAnimationFrame(() => {
-    let lastChildren = children.slice(-1 * (columns))
-    let childBottomEdge = lastChildren.map(child => child.getBoundingClientRect().bottom)
-    let childTopEdge = (children[0] && children[0].getBoundingClientRect().top) || 0
-    container.style.height = (Math.max(...childBottomEdge)  - childTopEdge) + 'px'
+    let lastChildren: HTMLElement[] = children.slice(-1 * (columns))
+    let childBottomEdge: number = Math.max(...lastChildren.map((c: HTMLElement) => c.getBoundingClientRect().bottom))
+    let childTopEdge: number = (children[0] && children[0].getBoundingClientRect().top) || 0
+    container.style.height = (childBottomEdge  - childTopEdge) + 'px'
   })
 }
 
-export default function Mason (props) {
-  const containerRef = useRef()
-  const columns = props.columns
+export default function Mason ({ children, columns } : MasonProps) {
+  const containerRef = React.useRef<HTMLDivElement>()
   
-  useEffect(() => {
+  React.useEffect(() => {
+
     // Listen for mediaQuery matches, and set the number of columns.
-    const mqListeners = {}
+    const mqListeners = {} as { [key: string]: any }
     const containerStyle = containerRef.current.style
     
     // handle media query match changes
-    const getQueryMatches = () => {
-      Object.keys(mqListeners).forEach(breakPoint => {
-        const cellWidth = (100 / columns[breakPoint].columns).toFixed(3) + '%'
+    const getQueryMatches = (): void => {
+      Object.keys(mqListeners).forEach((breakPoint: string) => {
+        const cellWidth: string = (100 / columns[breakPoint].columns).toFixed(3) + '%'
         if (mqListeners[breakPoint].matches || !columns[breakPoint].query) {
           containerStyle.setProperty('--cell-width', cellWidth)
           window.requestAnimationFrame(() => positionChildren(containerRef.current, columns))
@@ -60,7 +79,7 @@ export default function Mason (props) {
     }
   
     // listen for query matches, attach listener
-    Object.keys(columns).forEach(breakPoint => {
+    Object.keys(columns).forEach((breakPoint: string) => {
       mqListeners[breakPoint] = window.matchMedia(columns[breakPoint].query)
       mqListeners[breakPoint].addListener(getQueryMatches)
       getQueryMatches()
@@ -71,12 +90,12 @@ export default function Mason (props) {
       Object.keys(mqListeners).forEach(breakPoint => mqListeners[breakPoint].removeListener(getQueryMatches))
     }
   }, [ columns, containerRef ])
-  
-  useEffect(() => {
+
+  React.useEffect(() => {
     // listen for document resizing, and dom tree changes.  recalculate transforms as needed.
-    const doPositionChildren = () => positionChildren(containerNode, columns)
-    const mutationConfig = { childList: true, subtree: true }
-    const containerNode = containerRef.current
+    const doPositionChildren = (): void => positionChildren(containerNode, columns)
+    const mutationConfig = { childList: true, subtree: true } as MutationConfiguration
+    const containerNode = containerRef.current as HTMLElement
     const sizeObserver = new ResizeObserver(() => { doPositionChildren() })
     const domObserver = new MutationObserver(() => { doPositionChildren() })
     containerNode.addEventListener('load', doPositionChildren, true)
@@ -97,6 +116,6 @@ export default function Mason (props) {
   
   
   return <div className={'mason-container'} ref={containerRef}>
-    {props.children.map((child, i) => <div key={`child-${i}`}>{child}</div>)}
+    {children.map((child: React.ReactNode, i: number) => <div key={`child-${i}`}>{child}</div>)}
   </div>
 }
