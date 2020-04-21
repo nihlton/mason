@@ -25,7 +25,7 @@ const positionChildren = (container, columnConfig) => {
     let column = index % columns
     let rowChildren = children.slice(index - column, index - column + columns)
     let maxHeight = Math.max( ...rowChildren.map(child => child.offsetHeight))
-    let debt = maxHeight - child.getBoundingClientRect().height
+    let debt = Math.ceil(maxHeight - child.getBoundingClientRect().height)
     
     child.style.transform = index > columns - 1 ? `translateY(${-columnDebt[column]}px)` : ''
     columnDebt[column] = columnDebt[column] + debt
