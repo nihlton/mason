@@ -64,7 +64,7 @@ export default function Mason ({ children, columns } : MasonProps) {
   React.useEffect(() => {
 
     // Listen for mediaQuery matches, and set the number of columns.
-    const mqListeners = {} as { [key: string]: any }
+    const mqListeners: { [key: string]: MediaQueryList } = {}
     const containerStyle = containerRef.current.style
     
     // handle media query match changes
