@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: './build/index.js',
+    filename: '../build/index.js',
     libraryTarget: 'commonjs2'
   },
   devtool: 'source-map',
