@@ -17,6 +17,11 @@ interface MasonryConfig {
   [key: string]: BreakPointData
 }
 
+export interface MasonProps {
+  children?: React.ReactNode[] | undefined,
+  columns: MasonryConfig
+}
+
 const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): void => {
   // iterate through children - by column.  find gap under each child and the element in the row below it.
   // add the gap to the 'column debt' and move the child vertically accordingly.
@@ -53,7 +58,7 @@ const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): 
   })
 }
 
-export default function Mason ({ children, columns } : { children: any, columns: MasonryConfig }) {
+export default function Mason ({ children, columns } : MasonProps) {
   const containerRef = React.useRef<HTMLDivElement>()
   
   React.useEffect(() => {
@@ -111,6 +116,6 @@ export default function Mason ({ children, columns } : { children: any, columns:
   
   
   return <div className={'mason-container'} ref={containerRef}>
-    {children.map((child: any, i: number) => <div key={`child-${i}`}>{child}</div>)}
+    {children.map((child: React.ReactNode, i: number) => <div key={`child-${i}`}>{child}</div>)}
   </div>
 }
