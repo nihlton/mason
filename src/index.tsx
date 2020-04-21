@@ -54,13 +54,13 @@ const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): 
 }
 
 export default function Mason ({ children, columns } : { children: any, columns: MasonryConfig }) {
-  const containerRef = React.useRef()
+  const containerRef = React.useRef<HTMLDivElement>()
   
   React.useEffect(() => {
 
     // Listen for mediaQuery matches, and set the number of columns.
     const mqListeners = {} as { [key: string]: any }
-    const containerStyle = (containerRef.current as HTMLElement).style
+    const containerStyle = containerRef.current.style
     
     // handle media query match changes
     const getQueryMatches = (): void => {
