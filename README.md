@@ -1,3 +1,5 @@
+![React Stone Mason](https://repository-images.githubusercontent.com/124994276/3b0ff700-847a-11ea-85b3-f713930d3d30)
+
 # React Stone Mason
 Responsive masonry layout engine for react.
 
