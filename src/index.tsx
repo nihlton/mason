@@ -60,7 +60,8 @@ const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): 
 
 export default function Mason ({ children, columns } : MasonProps) {
   const containerRef = React.useRef<HTMLDivElement>()
-  
+
+  React.useLayoutEffect(() => positionChildren(containerRef.current, columns), [ containerRef, columns ])
   React.useEffect(() => {
 
     // Listen for mediaQuery matches, and set the number of columns.
