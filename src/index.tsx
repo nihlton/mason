@@ -58,7 +58,7 @@ const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): 
   })
 }
 
-export default function Mason ({ children, columns } : MasonProps) {
+export default function Mason ({ children = [], columns } : MasonProps) {
   const containerRef = React.useRef<HTMLDivElement>()
 
   React.useLayoutEffect(() => positionChildren(containerRef.current, columns), [ containerRef, columns ])
@@ -117,6 +117,6 @@ export default function Mason ({ children, columns } : MasonProps) {
   
   
   return <div className={'mason-container'} ref={containerRef}>
-    {children.filter(c => c).map((child: React.ReactNode, i: number) => <div key={`child-${i}`}>{child}</div>)}
+    {React.Children.toArray(children).filter(c => c).map((child: React.ReactNode, i: number) => <div key={`child-${i}`}>{child}</div>)}
   </div>
 }
