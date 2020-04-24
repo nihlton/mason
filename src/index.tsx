@@ -117,6 +117,6 @@ export default function Mason ({ children, columns } : MasonProps) {
   
   
   return <div className={'mason-container'} ref={containerRef}>
-    {children.map((child: React.ReactNode, i: number) => <div key={`child-${i}`}>{child}</div>)}
+    {children.filter(c => c).map((child: React.ReactNode, i: number) => <div key={`child-${i}`}>{child}</div>)}
   </div>
 }
