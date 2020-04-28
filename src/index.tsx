@@ -99,9 +99,12 @@ export default function Mason ({ children = [], columns } : MasonProps) {
     const containerNode = containerRef.current as HTMLElement
     const sizeObserver = new ResizeObserver(() => { doPositionChildren() })
     const domObserver = new MutationObserver(() => { doPositionChildren() })
+
+    window.addEventListener('resize', doPositionChildren)
     containerNode.addEventListener('load', doPositionChildren, true)
     containerNode.addEventListener('error', doPositionChildren, true)
-  
+
+    ;[...containerRef.current.children].forEach(child => sizeObserver.observe(child))
     sizeObserver.observe(containerNode)
     domObserver.observe(containerNode, mutationConfig)
     
@@ -110,6 +113,7 @@ export default function Mason ({ children = [], columns } : MasonProps) {
     return () => {
       sizeObserver.disconnect()
       domObserver.disconnect()
+      window.removeEventListener('resize', doPositionChildren)
       containerNode.removeEventListener('load', doPositionChildren)
       containerNode.removeEventListener('error', doPositionChildren)
     }
