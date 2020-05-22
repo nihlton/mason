@@ -55,7 +55,7 @@ const columnConfig = {
 
 #### Basic Example
 ```js
-import React from 'react';
+import React from 'react'
 import Mason from 'react-stone-mason'
 
 function App() {
@@ -67,13 +67,13 @@ function App() {
   );
 }
 
-export default App;
+export default App
 ```
 
 
 #### Responsive Example
 ```js
-import React from 'react';
+import React from 'react'
 import Mason from 'react-stone-mason'
 
 function App() {
@@ -98,7 +98,7 @@ function App() {
     <div className="App">
       <Mason columns={columnConfig}>{ [children] }</Mason>
     </div>
-  );
+  )
 }
 
 export default App;
