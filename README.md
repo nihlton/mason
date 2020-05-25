@@ -45,13 +45,12 @@ const columnConfig = {
 **Notes:**
 
 * CSS transitions and animations on element size can foil the resizeObserver.  
-
-* its best to not style direct children of the Mason component, as it could interfer with positioning.  Wrap your elements in a plain div.
 * The Mason component will wrap your elements in a div and apply the following CSS properties to the Mason owned divs:
   - box-sizing: inherit;
   - display: inline-block;
   - vertical-align: top;
   - width: var(--cell-width);
+* Adding additional styles to these Mason controlled elements can interfer with positioning.  Proceede with caution.
 
 #### Basic Example
 ```js
