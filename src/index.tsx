@@ -3,11 +3,6 @@ import ResizeObserver from 'resize-observer-polyfill'
 
 import './index.css'
 
-interface MutationConfiguration {
-  childList: boolean,
-  subtree: boolean
-}
-
 interface BreakPointData {
   query?: string,
   columns: number
@@ -34,7 +29,7 @@ const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): 
     const matchesThisBreakPoint = window.matchMedia(columnConfig[thisBreakPoint].query).matches
     if (matchesThisBreakPoint || defaultValue) { breakPoint = thisBreakPoint }
   })
-  
+
   if (!breakPoint) { return }
   let columns: number = +columnConfig[breakPoint].columns || 1
   let columnDebt: number[] = new Array(columns).fill(0)
@@ -95,28 +90,13 @@ export default function Mason ({ children = [], columns } : MasonProps) {
   React.useEffect(() => {
     // listen for document resizing, and dom tree changes.  recalculate transforms as needed.
     const doPositionChildren = (): void => positionChildren(containerNode, columns)
-    const mutationConfig = { childList: true, subtree: true } as MutationConfiguration
     const containerNode = containerRef.current as HTMLElement
     const sizeObserver = new ResizeObserver(() => { doPositionChildren() })
-    const domObserver = new MutationObserver(() => { doPositionChildren() })
 
-    window.addEventListener('resize', doPositionChildren)
-    containerNode.addEventListener('load', doPositionChildren, true)
-    containerNode.addEventListener('error', doPositionChildren, true)
-
-    ;[...containerRef.current.children].forEach(child => sizeObserver.observe(child))
+    Array.from(containerRef.current.children).forEach(child => sizeObserver.observe(child))
     sizeObserver.observe(containerNode)
-    domObserver.observe(containerNode, mutationConfig)
     
-    doPositionChildren()
-    
-    return () => {
-      sizeObserver.disconnect()
-      domObserver.disconnect()
-      window.removeEventListener('resize', doPositionChildren)
-      containerNode.removeEventListener('load', doPositionChildren)
-      containerNode.removeEventListener('error', doPositionChildren)
-    }
+    return () => { sizeObserver.disconnect() }
   }, [containerRef, columns])
   
   
