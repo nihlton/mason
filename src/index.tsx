@@ -3,6 +3,11 @@ import ResizeObserver from 'resize-observer-polyfill'
 
 import './index.css'
 
+interface MutationConfiguration {
+  childList: boolean,
+  subtree: boolean
+}
+
 interface BreakPointData {
   query?: string,
   columns: number
@@ -16,6 +21,12 @@ export interface MasonProps {
   children?: React.ReactNode[] | undefined,
   columns: MasonryConfig
 }
+
+type entryWithTarget = {
+  target: Node
+}
+
+const mutationConfig = { childList: true, subtree: true } as MutationConfiguration
 
 const positionChildren = (targets: HTMLElement[], container: HTMLElement, columnConfig: MasonryConfig): void => {
   // iterate through children - by column.  find gap under each child and the element in the row below it.
@@ -46,7 +57,7 @@ const positionChildren = (targets: HTMLElement[], container: HTMLElement, column
       const prevChild: HTMLElement = children[index - columns]
       const prevDebt: number = Number(prevChild?.getAttribute('data-debt') || 0)
 
-      const maxHeight: number = Math.max( ...rowChildren.map((rowChild: HTMLElement) => rowChild.offsetHeight))
+      const maxHeight: number = Math.max( ...rowChildren.map((rowChild: HTMLElement) => rowChild.getBoundingClientRect().height))
       const debt: number = prevDebt + Math.ceil(maxHeight - child.getBoundingClientRect().height)
 
       child.setAttribute('data-debt', String(debt))
@@ -103,7 +114,8 @@ export default function Mason ({ children = [], columns } : MasonProps) {
 
   React.useEffect(() => {
     // listen for document resizing, and dom tree changes.  recalculate transforms as needed.
-    const doPositionChildren = (entries: ResizeObserverEntry[]): void => {
+    const doPositionChildren = (entries: entryWithTarget[] ): void => {
+
       const containerChildren = Array.from(containerRef.current.children) as HTMLElement[]
       const targets = entries?.length ? entries.map(entry => entry.target)  as HTMLElement[] : containerChildren
       positionChildren(targets, containerNode, columns)
@@ -111,11 +123,16 @@ export default function Mason ({ children = [], columns } : MasonProps) {
 
     const containerNode = containerRef.current as HTMLElement
     const sizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => { doPositionChildren(entries) })
+    const domObserver = new MutationObserver((entries: MutationRecord[]) => { doPositionChildren(entries) })
 
     Array.from(containerRef.current.children).forEach(child => sizeObserver.observe(child))
     sizeObserver.observe(containerNode)
-    
-    return () => { sizeObserver.disconnect() }
+    domObserver.observe(containerNode, mutationConfig)
+
+    return () => {
+      sizeObserver.disconnect()
+      domObserver.disconnect()
+    }
   }, [containerRef, columns])
   
   
