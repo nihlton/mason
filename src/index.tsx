@@ -17,7 +17,7 @@ export interface MasonProps {
   columns: MasonryConfig
 }
 
-const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): void => {
+const positionChildren = (targets: HTMLElement[], container: HTMLElement, columnConfig: MasonryConfig): void => {
   // iterate through children - by column.  find gap under each child and the element in the row below it.
   // add the gap to the 'column debt' and move the child vertically accordingly.
   
@@ -32,17 +32,26 @@ const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): 
 
   if (!breakPoint) { return }
   let columns: number = +columnConfig[breakPoint].columns || 1
-  let columnDebt: number[] = new Array(columns).fill(0)
-  let children: HTMLElement[] = [].slice.call(container.children)
-  
-  children.forEach((child: HTMLElement, index: number) => {
-    let column: number = index % columns
-    let rowChildren: HTMLElement[] = children.slice(index - column, index - column + columns)
-    let maxHeight: number = Math.max( ...rowChildren.map((rowChild: HTMLElement) => rowChild.offsetHeight))
-    let debt: number = Math.ceil(maxHeight - child.getBoundingClientRect().height)
+  let children: HTMLElement[] = Array.from(container.children) as HTMLElement[]
 
-    child.style.transform = index > columns - 1 ? `translateY(${-columnDebt[column]}px)` : ''
-    columnDebt[column] = columnDebt[column] + debt
+  // find the first row of items impacted by the reposition, and begin positioning south of there
+  const firstTarget = targets.reduce((a, c) => Math.min(a, children.indexOf(c)), children.length)
+  const firstTargetRow = Math.max(0, firstTarget - columns)
+
+  children.forEach((child: HTMLElement, index: number) => {
+    if (index >= firstTargetRow) {
+      const column: number = index % columns
+      const rowChildren: HTMLElement[] = children.slice(index - column, index - column + columns)
+
+      const prevChild: HTMLElement = children[index - columns]
+      const prevDebt: number = Number(prevChild?.getAttribute('data-debt') || 0)
+
+      const maxHeight: number = Math.max( ...rowChildren.map((rowChild: HTMLElement) => rowChild.offsetHeight))
+      const debt: number = prevDebt + Math.ceil(maxHeight - child.getBoundingClientRect().height)
+
+      child.setAttribute('data-debt', String(debt))
+      child.style.transform = index > columns - 1 ? `translateY(-${prevDebt}px)` : ''
+    }
   })
   
   window.requestAnimationFrame(() => {
@@ -56,7 +65,11 @@ const positionChildren = (container: HTMLElement, columnConfig: MasonryConfig): 
 export default function Mason ({ children = [], columns } : MasonProps) {
   const containerRef = React.useRef<HTMLDivElement>()
 
-  React.useLayoutEffect(() => positionChildren(containerRef.current, columns), [ containerRef, columns ])
+  React.useLayoutEffect(() => {
+    const containerChildren = Array.from(containerRef.current.children) as HTMLElement[]
+    positionChildren(containerChildren, containerRef.current, columns)
+  }, [ containerRef, columns ])
+
   React.useEffect(() => {
 
     // Listen for mediaQuery matches, and set the number of columns.
@@ -66,10 +79,11 @@ export default function Mason ({ children = [], columns } : MasonProps) {
     // handle media query match changes
     const getQueryMatches = (): void => {
       Object.keys(mqListeners).forEach((breakPoint: string) => {
+        const containerChildren = Array.from(containerRef.current.children) as HTMLElement[]
         const cellWidth: string = (100 / columns[breakPoint].columns).toFixed(3) + '%'
         if (mqListeners[breakPoint].matches || !columns[breakPoint].query) {
           containerStyle.setProperty('--cell-width', cellWidth)
-          window.requestAnimationFrame(() => positionChildren(containerRef.current, columns))
+          window.requestAnimationFrame(() => positionChildren(containerChildren, containerRef.current, columns))
         }
       })
     }
@@ -89,9 +103,14 @@ export default function Mason ({ children = [], columns } : MasonProps) {
 
   React.useEffect(() => {
     // listen for document resizing, and dom tree changes.  recalculate transforms as needed.
-    const doPositionChildren = (): void => positionChildren(containerNode, columns)
+    const doPositionChildren = (entries: ResizeObserverEntry[]): void => {
+      const containerChildren = Array.from(containerRef.current.children) as HTMLElement[]
+      const targets = entries?.length ? entries.map(entry => entry.target)  as HTMLElement[] : containerChildren
+      positionChildren(targets, containerNode, columns)
+    }
+
     const containerNode = containerRef.current as HTMLElement
-    const sizeObserver = new ResizeObserver(() => { doPositionChildren() })
+    const sizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => { doPositionChildren(entries) })
 
     Array.from(containerRef.current.children).forEach(child => sizeObserver.observe(child))
     sizeObserver.observe(containerNode)
