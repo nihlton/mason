@@ -8,7 +8,7 @@ Responsive masonry layout engine for react.
 Obviously, this isn't the first masonry layout component for react.
 
   * Uses standard media queries to set column counts.  *Media queries are parsed and intepreted by the browser, not the component*.
-  * Unopinionated about whats inside.  Minimal styling applied to top level children.  see notes.
+  * Unopinionated about whats inside, with no modifications to your elements.  No event handlers bound, no styles applied. 
   * Simple layout logic.  Items are rendered by the browser in a standard inline-block flow, then the component repositions the elements vertically to consume white space between column neighbors.
 
 live demo: https://nihlton.github.io/mason/
@@ -47,11 +47,11 @@ const columnConfig = {
 * CSS transitions and animations on element size can foil the resizeObserver.  
 
 * its best to not style direct children of the Mason component, as it could interfer with positioning.  Wrap your elements in a plain div.
-* The Mason component will apply some styling to the child components, specifically:
-  - box-sizing
-  - display
-  - vertical-align
-  - width
+* The Mason component will wrap your elements in a div and apply the following CSS properties to the Mason owned divs:
+  - box-sizing: inherit;
+  - display: inline-block;
+  - vertical-align: top;
+  - width: var(--cell-width);
 
 #### Basic Example
 ```js
