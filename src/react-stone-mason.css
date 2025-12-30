@@ -1,0 +1,15 @@
+.mason-container {
+  position: relative;
+  overflow: hidden;
+  --cell-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.mason-container > * {
+  box-sizing: inherit;
+  display: inline-block;
+  vertical-align: top;
+  width: var(--cell-width);
+}
