@@ -11,8 +11,7 @@ export default defineConfig({
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, "src/index.ts"),
       name: "react-stone-mason",
-      fileName: (format) => `react-stone-mason.${format}.js`,
-      formats: ["es", "cjs"],
+      formats: ["es", "umd"],
     },
     rollupOptions: {
       // Externalize deps that shouldn't be bundled into your library

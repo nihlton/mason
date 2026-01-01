@@ -1,6 +1,6 @@
 {
   "name": "react-stone-mason",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": {
     "name": "Greg Archer",
     "email": "greg.taff@gmail.com"
@@ -10,17 +10,24 @@
     "url": "git+https://github.com/nihlton/mason"
   },
   "homepage": "https://github.com/nihlton/mason",
+  "files": [
+    "dist"
+  ],
   "main": "./dist/react-stone-mason.umd.js",
-  "module": "./dist/react-stone-mason.es.js",
+  "module": "./dist/react-stone-mason.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/react-stone-mason.mjs",
+      "require": "./dist/react-stone-mason.umd.js"
+    }
+  },
   "peerDependencies": {
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
   },
-  "dependencies": {
-    "typescript": "^5.9.3",
-    "webpack": "^4.35.0"
-  },
+  "dependencies": {},
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -40,6 +47,7 @@
     "sass": "^1.95.1",
     "source-map-loader": "^0.2.4",
     "ts-loader": "^7.0.0",
+    "typescript": "^5.9.3",
     "typescript-eslint": "^8.50.1",
     "vite": "^6.4.1",
     "vite-plugin-dts": "^4.5.4",
