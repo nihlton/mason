@@ -75,24 +75,24 @@ export default App
 import React from 'react'
 import Mason from 'react-stone-mason'
 
+
+const columnConfig = {
+	small: {
+	  query: '(max-width: 720px)',
+	  columns: 2
+	},
+	medium: {
+	  query: '(min-width: calc(721px)) and (max-width: calc(1022px) )',
+	  columns: 3
+	},
+	large: {
+	  query: '(min-width: 1023px)',
+	  columns: 4
+	}
+}
+
 function App() {
 
-  const columnConfig = {
-    small: {
-      query: '(max-width: 720px)',
-      columns: 2
-    },
-    medium: {
-      query: '(min-width: calc(721px)) and (max-width: calc(1022px) )',
-      columns: 3
-    },
-    large: {
-      query: '(min-width: 1023px)',
-      columns: 4
-    }
-  }
-  
-  
   return (
     <div className="App">
       <Mason columns={columnConfig}>{ [children] }</Mason>
